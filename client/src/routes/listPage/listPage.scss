@@ -1,11 +1,15 @@
 .listPage {
     display: flex;
-    height: 100%;
+    height: 100vh; /* Ensure full viewport height */
 
     .listContainer {
         flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%; /* Make sure this container takes the full height */
 
         .wrapper {
+            flex: 1; /* Ensure this takes up the remaining height */
             padding-right: 50px;
             display: flex;
             flex-direction: column;
@@ -18,5 +22,4 @@
         flex: 2;
         background-color: #fcf5f3;
     }
-
 }

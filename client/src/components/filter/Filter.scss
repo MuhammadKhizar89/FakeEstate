@@ -26,23 +26,30 @@
             font-size: 14px;
         }
     }
-    .top{
-        input{
+
+    .top {
+        input {
             width: 100%;
         }
     }
 
-    button{
-        width:100px;
-        padding: 10px;
-        border:none;
-        cursor:pointer;
-        background-color: #fece51;
 
-        img{
+    button {
+        width: 80px;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        background-color: #fece51;
+        border-radius: 10px;
+
+        img {
             width: 24px;
             height: 24px;
         }
+    }
+
+    .bottom {
+        display: flex;
     }
 
 }
