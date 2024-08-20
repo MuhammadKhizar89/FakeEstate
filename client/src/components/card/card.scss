@@ -1,10 +1,19 @@
+@import "../../responsive.scss";
+
 .card {
     display: flex;
     gap: 20px;
 
+    @include md {
+        display:flex;
+        flex-direction: column;
+        // width: 50%;
+    }
     .imageContainer {
         flex: 2;
         height: 200px;
+
+
 
         img {
             width: 100%;
