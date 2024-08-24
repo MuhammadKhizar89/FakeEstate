@@ -1,10 +1,12 @@
 import {Link, useNavigate} from "react-router-dom";
 import "../register/register.scss";
 import apiRequest from '../../lib/apiRequest';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 function Login() {
     const [error,setError]=useState("");
     const navigate=useNavigate();
+    const {updateUser}=useContext(AuthContext);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -17,7 +19,7 @@ function Login() {
                 username,
                 password,
             });
-            localStorage.setItem("user", JSON.stringify(res.data));
+            updateUser(res.data);
             navigate("/");
         }catch(err){
             console.log(err);
@@ -29,14 +31,14 @@ function Login() {
     return (
         <div className="register">
             <div className="formContainer">
-                <form onSubmit={handleSubmit}>
+                <form style={{width: "500px"}} onSubmit={handleSubmit}>
                     <h1>Login</h1>
                     <input name="username" type="text" placeholder="Username" />
                     <input name="password" type="password" placeholder="Password" />
                     <p>{error}</p>
                     <button>Login</button>
                     <Link id="link" to="/register">
-                        Don't have an account?
+                        Don`t have an account?
                     </Link>
                 </form>
             </div>

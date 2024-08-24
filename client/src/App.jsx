@@ -11,6 +11,7 @@ import {
 import SinglePage from "./routes/singlePage/SinglePage";
 import Register from "./routes/register/Register";
 import Login from "./routes/login/Login";
+import ProtectedRoute from "./ProtectedRoute";
 function App() {
 const router=createBrowserRouter([
   {
@@ -31,7 +32,11 @@ const router=createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <ProfilePage/>
+        element: (
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        )
       },
       {
         path: "/register",

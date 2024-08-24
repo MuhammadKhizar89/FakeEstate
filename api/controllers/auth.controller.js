@@ -32,9 +32,11 @@ export const login = async (req, res) => {
         })
 
         if (user && await bcrypt.compare(password, user.password)) {
-        const age = 1000 * 60 * 60 * 24 * 7;
-            const token=jwt.sign({id:user.id},process.env.JWT_SECRET,{expiresIn:age});
-const {password, ...userInfo} = user
+            const age = 1000 * 60 * 60 * 24 * 7;
+            const token = jwt.sign({ id: user.id ,
+            isAdmin:true    
+            }, process.env.JWT_SECRET, { expiresIn: age });
+            const { password, ...userInfo } = user
 
             res.cookie("token", token, {
                 httpOnly: true,
@@ -54,5 +56,5 @@ const {password, ...userInfo} = user
 
 export const logout = (req, res) => {
     //db operations
-res.clearCookie("token").status(200).json({ message: "Logout Successful" });
+    res.clearCookie("token").status(200).json({ message: "Logout Successful" });
 }   

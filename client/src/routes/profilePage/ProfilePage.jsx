@@ -1,30 +1,26 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import "./profilePage.scss";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import apiRequest from "../../lib/apiRequest";
+import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
+    const {updateUser,currentUser}=useContext(AuthContext);
     const navigate = useNavigate();
-    useEffect(() => {
-        if (localStorage.getItem("user") === null) {
-            navigate("/login");
-        }
-    }, [navigate]);
     const handleLogout = async () => {
         try {
             await apiRequest.post("/auth/logout");
             localStorage.removeItem("user");
+            updateUser(null);
             navigate("/");
         } catch (error) {
             console.log(error);
         }
     };
 
-    if (localStorage.getItem("user") === null) {
-        return null; 
-    }
+    
 
     return (
         <div className="profilePage">
@@ -36,12 +32,12 @@ function ProfilePage() {
                     </div>
 
                     <div className="info">
-                        <span>Avatar</span> <img src="imds" alt="" />
+                        <span>Avatar</span> <img src={currentUser.avatar||"/noavatar.png"} alt="" />
                         <span>
-                            Username: <b>Jhon Doe </b>
+                            Username: <b>{currentUser.username} </b>
                         </span>
                         <span>
-                            Email: <b>jhon@gmail.com</b>
+                            Email: <b>{currentUser.email}</b>
                         </span>
                         <button onClick={handleLogout}>Logout</button>
                     </div>
