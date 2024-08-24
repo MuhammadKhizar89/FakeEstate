@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import "./profilePage.scss";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
@@ -28,7 +28,9 @@ function ProfilePage() {
                 <div className="wrapper">
                     <div className="title">
                         <h1>User Information</h1>
-                        <button>Update Profile</button>
+                       
+                       <Link to="/profile/update"> <button>Update Profile</button>
+                       </Link>
                     </div>
 
                     <div className="info">
