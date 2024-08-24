@@ -34,10 +34,12 @@ export const login = async (req, res) => {
         if (user && await bcrypt.compare(password, user.password)) {
         const age = 1000 * 60 * 60 * 24 * 7;
             const token=jwt.sign({id:user.id},process.env.JWT_SECRET,{expiresIn:age});
+const {password, ...userInfo} = user
+
             res.cookie("token", token, {
                 httpOnly: true,
                 maxAge: age
-            }).status(200).json({ message: "Login Successful" });
+            }).status(200).json(userInfo);
         } else {
             return res.status(401).json({ message: "Invalid Credentials" });
         }

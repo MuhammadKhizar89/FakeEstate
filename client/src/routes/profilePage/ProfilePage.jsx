@@ -1,8 +1,31 @@
-import './profilePage.scss';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./profilePage.scss";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
+import apiRequest from "../../lib/apiRequest";
 
-function profilePage() {
+function ProfilePage() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (localStorage.getItem("user") === null) {
+            navigate("/login");
+        }
+    }, [navigate]);
+    const handleLogout = async () => {
+        try {
+            await apiRequest.post("/auth/logout");
+            localStorage.removeItem("user");
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    if (localStorage.getItem("user") === null) {
+        return null; 
+    }
+
     return (
         <div className="profilePage">
             <div className="details">
@@ -20,6 +43,7 @@ function profilePage() {
                         <span>
                             Email: <b>jhon@gmail.com</b>
                         </span>
+                        <button onClick={handleLogout}>Logout</button>
                     </div>
 
                     <div className="title">
@@ -42,4 +66,4 @@ function profilePage() {
     );
 }
 
-export default profilePage;
+export default ProfilePage;
