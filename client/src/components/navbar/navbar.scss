@@ -1,163 +1,157 @@
-@import '../../responsive.scss';
+@import "../../responsive.scss";
 
 nav {
-    height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // border: 2px solid red;
+  height: 6.25rem;
+
+  a {
+    transition: all 300ms ease-in-out;
+
+    &:hover {
+      scale: 1.05;
+    }
+
+    @include sm {
+      display: none;
+    }
+  }
+
+  .left {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 3.25rem;
+    flex: 3;
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      img {
+        width: 1.75rem;
+      }
+    }
+
+    span {
+      @include md {
+        display: none;
+      }
+
+      @include sm {
+        display: initial;
+      }
+    }
+  }
+
+  .right {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-color: #fcf5f3;
+    height: 100%;
+
+    @include md {
+      background-color: transparent;
+    }
 
     a {
-        transition: all 0.4s ease;
+      padding: 1rem 1.5rem;
+      margin: 1rem;
+    }
 
+    .user {
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+
+      img {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1.25rem;
+      }
+
+      span {
         @include sm {
-            display: none;
+          display: none;
         }
+      }
 
-        &:hover {
-            scale: 1.05;
+      .profile {
+        padding: 0.75rem 1.5rem;
+        background-color: #fece51;
+        border: none;
+        cursor: pointer;
+        position: relative;
+
+        .notification {
+          position: absolute;
+          top: -0.5rem;
+          right: -0.5rem;
+          border-radius: 50%;
+          height: 1.375rem;
+          width: 1.375rem;
+          background-color: red;
+          color: white;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
+      }
     }
 
-    .left {
-        flex: 3;
-        display: flex;
-        align-items: center;
-        gap: 58px;
-
-        .logo {
-            font-weight: bold;
-            font-size: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-
-            img {
-                width: 28px;
-            }
-
-            span {
-                @include md {
-                    display: none;
-                }
-
-                @include sm {
-                    display: initial;
-                }
-            }
-
-        }
+    .register {
+      background-color: #fece51;
     }
 
-    .right {
-        flex: 2;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        background-color: #fcf5f3;
-        height: 100%;
+    .menuIcon {
+      display: none;
+      z-index: 99;
 
-        @include md {
-            background-color: transparent;
-        }
+      img {
+        height: 2.25rem;
+        width: 2.25rem;
+        cursor: pointer;
+      }
 
-        a {
-            padding: 12px 24px;
-            margin: 20px;
-        }
-
-        .user {
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-
-            img {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                object-fit: cover;
-                margin-right: 20px;
-            }
-            span{
-                @include sm {
-                   display: none; 
-                }
-            }
-
-            .profile {
-                padding: 17px 74px;
-                background-color: #fece51;
-                cursor: pointer;
-                border: none;
-                position: relative;
-
-                .notification {
-                    position: absolute;
-                    top: -8px;
-                    right: -8px;
-                    background-color: red;
-                    color: white;
-                    border-radius: 50%;
-                    width: 26px;
-                    height: 26px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-
-
-
-            }
-
-        }
-
-        .register {
-            background-color: #fece51;
-        }
-
-        .menuIcon {
-            display: none;
-
-            z-index: 999;
-
-            img {
-                width: 38px;
-                height: 36px;
-                cursor: pointer;
-            }
-
-            @include sm {
-                position: fixed;
-                display: inline;
-            }
-        }
-
-        .menu {
-            position: absolute;
-            top: 0;
-            right: -50%;
-            background-color: black;
-            color: white;
-            height: 100vh;
-            width: 50%;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-           display: none;
-            &.active {
-                right: 0;
-            }
-            
-            @include sm {
-                display: flex;
-                position: fixed;
-                a {
-                    display: initial;
-                }
-            }
-        }
-
-
+      @include sm {
+        display: inline;
+      }
     }
+
+    .menu {
+      position: absolute;
+      top: 0;
+      right: -50%;
+      background-color: black;
+      color: white;
+      height: 100%;
+      width: 50%;
+      transition: all 800ms ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+
+      &.active {
+        @include sm {
+          right: 0;
+        }
+      }
+
+      a {
+        @include sm {
+          display: initial;
+        }
+      }
+    }
+  }
 }

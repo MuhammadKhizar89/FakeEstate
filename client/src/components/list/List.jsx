@@ -1,14 +1,15 @@
 import "./list.scss";
 import Card from "../card/Card";
-import {listData} from "../../lib/dummydata";
+import { listData } from "../../lib/dummyData";
+
 function List() {
-    return (
-        <div className="list">
-            {listData.map((item) => (
-                <Card item={item} key={item.id} />
-            ))}
-        </div>
-    );
+  return (
+    <div className="list">
+      {listData.map((item) => (
+        <Card key={item.id} item={item} />
+      ))}
+    </div>
+  );
 }
 
 export default List;

@@ -1,60 +1,54 @@
-@import "../../responsive.scss";
 .filter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.675rem;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+
+  .item {
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 0.25rem;
 
-    h1 {
-        font-weight: 300;
-        font-size: 24px;
+    label {
+      font-size: 0.675rem;
     }
 
-    .item {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-
-        label {
-            font-size: 10px;
-        }
-
-        input,
-        select {
-            width: 100px;
-            padding: 10px;
-            border: 1px solid #e0e0e0;
-            border-radius: 5px;
-            font-size: 14px;
-        }
+    input,
+    select {
+      width: 6.25rem;
+      padding: 0.625rem;
+      border: 0.125rem solid #e0e0e0;
+      border-radius: 0.3125rem;
+      font-size: 0.875rem;
     }
+  }
 
-    .top {
-        input {
-            width: 100%;
-        }
+  .top {
+    input {
+      width: 100%;
     }
+  }
 
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25rem;
 
     button {
-        width: 80px;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        background-color: #fece51;
-        border-radius: 10px;
+      border: none;
+      background-color: #fece51;
+      width: 100%;
+      padding: 0.675rem;
+      cursor: pointer;
 
-        img {
-            width: 24px;
-            height: 24px;
-        }
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
     }
-
-    .bottom {
-        display: flex;
-        @include md{
-            flex-wrap: wrap;
-            // flex-direction: column;
-        }
-    }
-
+  }
 }
