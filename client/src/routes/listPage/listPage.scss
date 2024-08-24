@@ -1,24 +1,43 @@
+@import '../../responsive.scss';
+
 .listPage {
-  display: flex;
-  height: 100%;
+    display: flex;
 
-  .listContainer {
-    flex: 3;
-    height: 100%;
+    // flex-direction: column;
+    // height: 100vh; /* Ensure full viewport height */
+    .listContainer {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        /* Make sure this container takes the full height */
+        margin-bottom: 5%;
 
-    .wrapper {
-      height: 100%;
-      padding: 3.125rem;
-      display: flex;
-      flex-direction: column;
-      gap: 3.125rem;
-      overflow-y: scroll;
+        @include md {
+            // padding: 320px;
+            font-size: smaller;
+        }
+
+        .wrapper {
+            flex: 1;
+            /* Ensure this takes up the remaining height */
+            padding-right: 50px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+
+            @include md {
+                padding: 0;
+            }
+            // overflow-y: scroll;
+        }
     }
-  }
 
-  .mapContainer {
-    flex: 2;
-    height: 100%;
-    background-color: #fcf5f3;
-  }
+    .mapContainer {
+        flex: 2;
+        width: 100%;
+        height: 100vh;
+        background-color: #fcf5f3;
+    }
 }
