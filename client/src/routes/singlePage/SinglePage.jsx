@@ -1,29 +1,33 @@
 import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
-import {singlePostData, userData} from "../../lib/dummydata";
+import {userData} from "../../lib/dummydata";
 import Map from "../../components/map/Map";
+import { useLoaderData } from "react-router-dom";
+import DOMPurify from 'dompurify';
 function SinglePage() {
+    const post =useLoaderData();
+    console.log(post);
     return (
         <div className="singlePage">
             <div className="details">
                 <div className="wrapper">
-                    <Slider images={singlePostData.images} />
+                    <Slider images={post.images} />
                     <div className="info">
                         <div className="top">
                             <div className="post">
-                                <h1>{singlePostData.title}</h1>
+                                <h1>{post.title}</h1>
                                 <div className="address">
                                     <img src="/pin.png" alt="" />
-                                    <span>{singlePostData.address}</span>
+                                    <span>{post.address}</span>
                                 </div>
-                                <div className="price">$ {singlePostData.price}</div>
+                                <div className="price">$ {post.price}</div>
                             </div>
                             <div className="user">
-                                <img src={userData.img} alt="" />
-                                <span>{userData.name}</span>
+                                <img src={post.user.avatar} alt="" />
+                                <span>{post.user.username}</span>
                             </div>
                         </div>
-                        <div className="bottom">{singlePostData.description}</div>
+                        <div className="bottom" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post.postDetail.desc)}}></div>
                     </div>
                 </div>
             </div>
@@ -35,21 +39,24 @@ function SinglePage() {
                             <img src="/utility.png" alt="" />
                             <div className="featureText">
                                 <span>Utilities</span>
-                                <p>Renter is Responsbility</p>
+                                <p>{post.postDetail.utilities} is Responsible</p>
                             </div>
                         </div>
                         <div className="feature">
                             <img src="/pet.png" alt="" />
                             <div className="featureText">
                                 <span>Pet Policy</span>
-                                <p>Pets Allowed</p>
+                                {post.postDetail.pet==="allowed"?
+                                    <p>Pets Allowed</p>:
+                                    <p>Pets not Allowed</p>
+                                    }
                             </div>
                         </div>
                         <div className="feature">
                             <img src="/fee.png" alt="" />
                             <div className="featureText">
-                                <span>Property Fees</span>
-                                <p>Must have 3x the rent in total household income</p>
+                                <span>Income Policy</span>
+                                <p>{post.postDetail.income}</p>
                             </div>
                         </div>
                     </div>
@@ -57,15 +64,15 @@ function SinglePage() {
                     <div className="sizes">
                         <div className="size">
                             <img src="/size.png" alt="" />
-                            <span>00 sqft</span>
+                            <span>{post.postDetail.size}sqft</span>
                         </div>
                         <div className="size">
                             <img src="/bed.png" alt="" />
-                            <span>2 beds</span>
+                            <span>{post.bedroom}beds</span>
                         </div>
                         <div className="size">
                             <img src="/bath.png" alt="" />
-                            <span>1 bathroom</span>
+                            <span>{post.bathroom} bathroom</span>
                         </div>
                     </div>
 
@@ -75,7 +82,7 @@ function SinglePage() {
                                 <img src="/school.png" alt="" />
                                 <div className="featureText">
                                     <span>School</span>
-                                    <p>250m away</p>
+                                    <p>{post.postDetail.school}m away</p>
                                 </div>
                             </div>
 
@@ -83,7 +90,7 @@ function SinglePage() {
                                 <img src="/bus.png" alt="" />
                                 <div className="featureText">
                                     <span>Bus Stop</span>
-                                    <p>100m away</p>
+                                    <p>{post.postDetail.bus}m away</p>
                                 </div>
                             </div>
 
@@ -91,13 +98,13 @@ function SinglePage() {
                                 <img src="/restaurant.png" alt="" />
                                 <div className="featureText">
                                     <span>Resturant</span>
-                                    <p>250 m away</p>
+                                    <p>{post.postDetail.resturant} m away</p>
                                 </div>
                         </div>
                     </div>
                     <p className="title">Location</p>
                     <div className="mapContainer">
-                        <Map items={[singlePostData]} />
+                        <Map items={[post]} />
                     </div>
                     <div className="buttons">
                         <button>
