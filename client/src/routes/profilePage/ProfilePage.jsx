@@ -46,7 +46,9 @@ function ProfilePage() {
 
                     <div className="title">
                         <h1>My Lists</h1>
+                        <Link to='/add'> 
                         <button>Create New Posts</button>
+                        </Link>
                     </div>
                     <List />
                     <div className="title">

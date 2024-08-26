@@ -7,6 +7,7 @@ import SinglePage from "./routes/singlePage/SinglePage";
 import Register from "./routes/register/Register";
 import Login from "./routes/login/Login";
 import ProtectedRoute from "./ProtectedRoute";
+import NewPostPage from "./routes/newPostPage/NewPostPage";
 import ProfileUpdatePage from "./routes/profileUpdatePage/ProfileUpdatePage";
 function App() {
     const router = createBrowserRouter([
@@ -39,6 +40,14 @@ function App() {
                     element: (
                         <ProtectedRoute>
                             <ProfileUpdatePage />
+                        </ProtectedRoute>
+                    ),
+                },
+                {
+                    path: "/add",
+                    element: (
+                        <ProtectedRoute>
+                            <NewPostPage />
                         </ProtectedRoute>
                     ),
                 },

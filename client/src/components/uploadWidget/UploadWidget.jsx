@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 class UploadWidget extends Component {
   componentDidMount() {
-    const { cloudName, uploadPreset, onUploadSuccess } = this.props.uwConfig;
-    
-    var myWidget = window.cloudinary.createUploadWidget(
+    const { cloudName, uploadPreset, setAvatar } = this.props.uwConfig;
+
+    const myWidget = window.cloudinary.createUploadWidget(
       {
         cloudName: cloudName,
         uploadPreset: uploadPreset,
@@ -15,9 +15,14 @@ class UploadWidget extends Component {
       },
       (error, result) => {
         if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
-          // Invoke the callback to handle the upload success
-          onUploadSuccess(result.info.secure_url);
+          console.log("Upload successful! Image info: ", result.info);
+
+          // Use functional update to ensure the most recent state is used
+          setAvatar((prevAvatar) => {
+            const updatedAvatars = [...prevAvatar, result.info.secure_url];
+            console.log("Updated avatars array:", updatedAvatars);
+            return updatedAvatars;
+          });
         }
       }
     );

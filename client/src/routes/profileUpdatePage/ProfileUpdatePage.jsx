@@ -7,7 +7,7 @@ import UploadWidget from "../../components/uploadWidget/UploadWidget";
 
 function ProfileUpdatePage() {
     const {currentUser, updateUser} = useContext(AuthContext);
-    const [avatar, setAvatar] = useState(currentUser.avatar);
+    const [avatar, setAvatar] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function ProfileUpdatePage() {
                 username,
                 email,
                 password,
-                avatar, // Include the updated avatar URL in the request
+                avatar: avatar[0], // Include the updated avatar URL in the request
             });
             console.log(res.data);
             updateUser(res.data);
@@ -70,7 +70,7 @@ function ProfileUpdatePage() {
                 </form>
             </div>
             <div className="sideContainer">
-                <img src={avatar || "/noavatar.png"} alt="" className="avatar" />
+                <img src={avatar[0]||currentUser.avatar || "/noavatar.png"} alt="" className="avatar" />
 
                 <UploadWidget
                     uwConfig={{
@@ -79,9 +79,7 @@ function ProfileUpdatePage() {
                         multiple: false,
                         maxImageFileSize: 2000000,
                         folder: "avatars",
-                        onUploadSuccess: (url) => {
-                            setAvatar(url); // Update the avatar state with the uploaded image URL
-                        },
+                        setAvatar,
                     }}
                 />
             </div>
