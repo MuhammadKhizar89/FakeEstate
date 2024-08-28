@@ -1,0 +1,44 @@
+/* ErrorPage.css */
+
+.error-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f2f2f2;
+    text-align: center;
+}
+
+.error-content {
+    max-width: 600px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.error-title {
+    font-size: 100px;
+    margin: 0;
+    color: #e74c3c;
+}
+
+.error-message {
+    font-size: 24px;
+    margin: 20px 0;
+    color: #555;
+}
+
+.error-link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background-color: #3498db;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.error-link:hover {
+    background-color: #2980b9;
+}

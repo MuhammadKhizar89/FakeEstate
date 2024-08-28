@@ -41,6 +41,8 @@ export const getPost = async (req, res) => {
         const token = req.cookies?.token;
         if (!token) {
             userId = null;
+       return res.status(200).json({...post, isSaved: false});
+
         } else {
             jwt.verify(token, process.env.JWT_SECRET, async (err, payLoad) => {
                 if (err) {

@@ -10,6 +10,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import NewPostPage from "./routes/newPostPage/NewPostPage";
 import ProfileUpdatePage from "./routes/profileUpdatePage/ProfileUpdatePage";
 import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders";
+import ErrorPage from "./routes/Error/ErrorPage";
 function App() {
     const router = createBrowserRouter([
         {
@@ -24,11 +25,15 @@ function App() {
                     path: "/list",
                     element: <ListPage />,
                     loader:listPageLoader,
+                    errorElement:<ErrorPage/>
+
                 },
                 {
                     path: "/:id",
                     element: <SinglePage />,
                     loader: singlePageLoader,
+                    errorElement:<ErrorPage/>
+
                 },
                 {
                     path: "/profile",
@@ -37,7 +42,8 @@ function App() {
                             <ProfilePage />
                         </ProtectedRoute>
                     ),
-                    loader:profilePageLoader
+                    loader:profilePageLoader,
+                    errorElement:<ErrorPage/>
                 },
                 {
                     path: "/profile/update",
@@ -65,6 +71,10 @@ function App() {
                 },
             ],
         },
+        {
+            path: "*",
+            element: <ErrorPage />,
+        }
     ]);
 
     return <RouterProvider router={router} />;

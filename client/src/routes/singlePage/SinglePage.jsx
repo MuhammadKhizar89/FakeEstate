@@ -2,7 +2,7 @@ import "./singlePage.scss";
 import Slider from "../../components/slider/Slider";
 import {userData} from "../../lib/dummydata";
 import Map from "../../components/map/Map";
-import {Navigate, useLoaderData} from "react-router-dom";
+import {Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
 import {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
@@ -11,13 +11,15 @@ function SinglePage() {
     const post = useLoaderData();
     const [saved,setSaved] = useState(post.isSaved);
     const {currentUser} = useContext(AuthContext);
+    const navigate=useNavigate();
     console.log(post);
     const handleSave = async () => {
+        console.log(currentUser);
+        if (!currentUser) {
+            return navigate("/login");
+        }
         setSaved((prev)=>{
             return !prev})
-        if (!currentUser) {
-            <Navigate to={"/login"} />;
-        }
         console.log(post.id);
         try {
             await apiRequest.post("/users/save", {

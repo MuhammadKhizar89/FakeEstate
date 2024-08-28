@@ -1,21 +1,24 @@
 import { defer } from "react-router-dom";
 import apiRequest from "./apiRequest"
 
-export const singlePageLoader=async ({request,params})=>{
-    const res=await apiRequest.get(`/posts/${params.id}`);
+export const singlePageLoader = async ({ request, params }) => {
+    const res = await apiRequest.get(`/posts/${params.id}`);
     return res.data;
 }
-export const listPageLoader=async ({request,params})=>{
-    const query= request.url.split("?")[1];
+export const listPageLoader = async ({ request, params }) => {
+    const query = request.url.split("?")[1];
     console.log(query);
-    const postPromise=await apiRequest.get("/posts?"+query);
+    const postPromise = await apiRequest.get("/posts?" + query);
     return defer({
-        postResponse:postPromise,
-    })     
+        postResponse: postPromise,
+    })
 }
-export const profilePageLoader =async ()=>{
-    const postPromise=await apiRequest.get("/users/profilePosts");
+export const profilePageLoader = async () => {
+    console.log(localStorage.getItem("userId"))
+    if (localStorage.getItem("user") === null)
+        return null;
+    const postPromise = await apiRequest.get("/users/profilePosts");
     return defer({
-        postResponse:postPromise,
+        postResponse: postPromise,
     });
 };
