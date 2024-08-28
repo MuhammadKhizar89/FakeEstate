@@ -64,7 +64,10 @@ export const deleteUser = async (req, res) => {
 }
 export const savePost = async (req, res) => {
     const postId = req.body.postId;
+    console.log(postId);
     const tokenUserId = req.userId;
+    console.log("hehe",tokenUserId);
+
     try {
         const savedPost = await prisma.savedPost.findUnique({
             where: {
@@ -74,6 +77,7 @@ export const savePost = async (req, res) => {
                 }
             },
         })
+        console.log("savedPost",savedPost);
         if (savedPost) {
             await prisma.savedPost.delete({
                 where: {
@@ -85,12 +89,13 @@ export const savePost = async (req, res) => {
             })
             res.status(200).json({ message: "Post Removed From saved List" });
         } else {
-            await prisma.savedPost.create({
+            const abc=await prisma.savedPost.create({
                 data: {
                     userId: tokenUserId,
-                    postId: postId
+                    postId
                 }
             })
+            console.log(abc);
             res.status(200).json({ message: "Post Added To saved List" });
         }
 
@@ -100,9 +105,10 @@ export const savePost = async (req, res) => {
     }
 }
 export const profilePosts = async (req, res) => {
+    console.log("not this",req.userId);
     const tokenUserId = req.userId;
     try {
-        const userPosts = await prisma.user.findMany({
+        const userPosts = await prisma.post.findMany({
             where: { userId: tokenUserId },
         })
         const saved = await prisma.savedPost.findMany({

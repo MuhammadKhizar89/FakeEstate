@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Suspense, useContext, useEffect } from "react";
+import { Await, Link, Navigate, useLoaderData, useNavigate } from "react-router-dom";
 import "./profilePage.scss";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
@@ -7,6 +7,8 @@ import apiRequest from "../../lib/apiRequest";
 import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
+    const data=useLoaderData();
+    console.log(data);
     const {updateUser,currentUser}=useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = async () => {
@@ -50,11 +52,27 @@ function ProfilePage() {
                         <button>Create New Posts</button>
                         </Link>
                     </div>
-                    <List />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Await resolve={data.postResponse} errorElement={<div>Error Loading Posts!</div>}>
+                            {(postResponse) => {
+                                console.log(postResponse.data.userPosts);
+                                return (<List listData={postResponse.data.userPosts} />);
+                            }}
+                        </Await>
+                    </Suspense>
+                    
                     <div className="title">
                         <h1>Saved Lists</h1>
                     </div>
-                    <List />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Await resolve={data.postResponse} errorElement={<div>Error Loading Posts!</div>}>
+                            {(postResponse) => {
+                                console.log(postResponse.data.userPosts);
+                                return (<List listData={postResponse.data.savedPosts} />);
+                            }}
+                        </Await>
+                    </Suspense>
+                    
                 </div>
             </div>
             <div className="chatContainer">
