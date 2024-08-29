@@ -1,15 +1,15 @@
-import { Suspense, useContext, useEffect } from "react";
-import { Await, Link, Navigate, useLoaderData, useNavigate } from "react-router-dom";
+import {Suspense, useContext, useEffect} from "react";
+import {Await, Link, Navigate, useLoaderData, useNavigate} from "react-router-dom";
 import "./profilePage.scss";
 import Chat from "../../components/chat/Chat";
 import List from "../../components/list/List";
 import apiRequest from "../../lib/apiRequest";
-import { AuthContext } from "../../context/AuthContext";
+import {AuthContext} from "../../context/AuthContext";
 
 function ProfilePage() {
-    const data=useLoaderData();
+    const data = useLoaderData();
     console.log(data);
-    const {updateUser,currentUser}=useContext(AuthContext);
+    const {updateUser, currentUser} = useContext(AuthContext);
     const navigate = useNavigate();
     const handleLogout = async () => {
         try {
@@ -22,21 +22,21 @@ function ProfilePage() {
         }
     };
 
-    
-
     return (
         <div className="profilePage">
             <div className="details">
                 <div className="wrapper">
                     <div className="title">
                         <h1>User Information</h1>
-                       
-                       <Link to="/profile/update"> <button>Update Profile</button>
-                       </Link>
+
+                        <Link to="/profile/update">
+                            {" "}
+                            <button>Update Profile</button>
+                        </Link>
                     </div>
 
                     <div className="info">
-                        <span>Avatar</span> <img src={currentUser.avatar||"/noavatar.png"} alt="" />
+                        <span>Avatar</span> <img src={currentUser.avatar || "/noavatar.png"} alt="" />
                         <span>
                             Username: <b>{currentUser.username} </b>
                         </span>
@@ -48,19 +48,19 @@ function ProfilePage() {
 
                     <div className="title">
                         <h1>My Lists</h1>
-                        <Link to='/add'> 
-                        <button>Create New Posts</button>
+                        <Link to="/add">
+                            <button>Create New Posts</button>
                         </Link>
                     </div>
                     <Suspense fallback={<div>Loading...</div>}>
                         <Await resolve={data.postResponse} errorElement={<div>Error Loading Posts!</div>}>
                             {(postResponse) => {
                                 console.log(postResponse.data.userPosts);
-                                return (<List listData={postResponse.data.userPosts} />);
+                                return <List listData={postResponse.data.userPosts} />;
                             }}
                         </Await>
                     </Suspense>
-                    
+
                     <div className="title">
                         <h1>Saved Lists</h1>
                     </div>
@@ -68,16 +68,22 @@ function ProfilePage() {
                         <Await resolve={data.postResponse} errorElement={<div>Error Loading Posts!</div>}>
                             {(postResponse) => {
                                 console.log(postResponse.data.userPosts);
-                                return (<List listData={postResponse.data.savedPosts} />);
+                                return <List listData={postResponse.data.savedPosts} />;
                             }}
                         </Await>
                     </Suspense>
-                    
                 </div>
             </div>
             <div className="chatContainer">
                 <div className="wrapper">
-                    <Chat />
+                    <Suspense fallback={<div>Loading...</div>}>
+                        <Await resolve={data.chatResponse} errorElement={<div>Error Loading Chats!</div>}>
+                            {(chatResponse) => {
+                                console.log("Chat=-",chatResponse.data);
+                             return <Chat chats={chatResponse.data}/>;
+                            }}
+                        </Await>
+                    </Suspense>
                 </div>
             </div>
         </div>

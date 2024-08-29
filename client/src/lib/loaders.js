@@ -18,7 +18,9 @@ export const profilePageLoader = async () => {
     if (localStorage.getItem("user") === null)
         return null;
     const postPromise = await apiRequest.get("/users/profilePosts");
+    const chatPromise = await apiRequest.get("/chats");
     return defer({
         postResponse: postPromise,
+        chatResponse: chatPromise,
     });
 };
