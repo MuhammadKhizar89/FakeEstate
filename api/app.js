@@ -19,6 +19,7 @@ app.use("/api/chats",chatRoute);
 app.use("/api/messages",messageRoute);
 app.use("/",(req,res)=>{
     res.send("Hello World");
+    
 }
 );
 app.listen(8080, () => {
