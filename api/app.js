@@ -18,7 +18,7 @@ app.use("/api/users",userRoute);
 app.use("/api/chats",chatRoute);
 app.use("/api/messages",messageRoute);
 app.use("/",(req,res)=>{
-    res.json({message:"Hello World"})
+    res.send("Hello World");
 }
 );
 app.listen(8080, () => {
