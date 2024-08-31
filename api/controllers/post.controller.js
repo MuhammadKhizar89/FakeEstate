@@ -4,7 +4,7 @@ export const getPosts = async (req, res) => {
     const query = req.query;
     console.log(query);
     try {
-        const posts = await prisma.post.findMany({
+        var posts = await prisma.post.findMany({
             where: {
                 city: query.city || undefined,
                 type: query.type || undefined,
@@ -16,6 +16,9 @@ export const getPosts = async (req, res) => {
                 }
             }
         });
+        posts.length==0?posts=await prisma.post.findMany():posts;
+        
+        console.log(posts);
         res.status(200).json(posts);
     } catch (error) {
         console.log(error);

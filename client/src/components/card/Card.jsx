@@ -1,11 +1,28 @@
-import {Link} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import "./card.scss";
+import apiRequest from "../../lib/apiRequest";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+
 function Card({item}) {
     console.log(item);
+    const navigate=useNavigate();
+    const {currentUser} = useContext(AuthContext);
+    const createMessgae = async () => {
+        try {
+            await apiRequest.post("/chats/123", {receiverId: item.userId});
+            if(!currentUser)
+                navigate('/login');
+            else
+            navigate('/profile');
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div className="card">
             <Link to={`/${item.id}`} className="imageContainer">
-            <img src={(Array.isArray(item.images) && item.images.length > 0) ? item.images[0] : item.img} alt="" />
+                <img src={Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : item.img} alt="" />
             </Link>
             <div className="textContainer">
                 <h2 className="title">
@@ -27,14 +44,12 @@ function Card({item}) {
                             <span>{item.bathroom} bathroom</span>
                         </div>
                     </div>
-                    <div className="icons">
-                        <div className="icon">
-                            <img src="/save.png" alt="" />
-                        </div>
-                        <div className="icon">
+                   
+                   {currentUser.id !== item.userId && <div className="icons">
+                        <div className="icon" onClick={() => createMessgae()}>
                             <img src="/chat.png" alt="" />
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>

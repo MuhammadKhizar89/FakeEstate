@@ -11,6 +11,7 @@ import NewPostPage from "./routes/newPostPage/NewPostPage";
 import ProfileUpdatePage from "./routes/profileUpdatePage/ProfileUpdatePage";
 import { listPageLoader, profilePageLoader, singlePageLoader } from "./lib/loaders";
 import ErrorPage from "./routes/Error/ErrorPage";
+import Contact from "./routes/contact/Contact";
 function App() {
     const router = createBrowserRouter([
         {
@@ -69,6 +70,10 @@ function App() {
                     path: "/login",
                     element: <Login />,
                 },
+                {
+                    path: "/contact",
+                element:<Contact/>
+                }
             ],
         },
         {

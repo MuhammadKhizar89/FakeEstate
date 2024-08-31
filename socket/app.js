@@ -1,22 +1,27 @@
 import { Server } from "socket.io";
+
 const io = new Server({
     cors: {
         origin: "http://localhost:5173"
     }
-})
+});
+
 let onlineUsers = [];
+
 const addUser = (userId, socketId) => {
     const userExists = onlineUsers.find(user => user.userId === userId);
     if (!userExists) {
-        onlineUsers.push({ userId, socketId })
+        onlineUsers.push({ userId, socketId });
     }
-}
+};
+
 const removeUser = (socketId) => {
-    onlineUsers = onlineUsers.filter(user => user.socketId !== socketId)
-}
+    onlineUsers = onlineUsers.filter(user => user.socketId !== socketId);
+};
+
 const getUser = (userId) => {
-    return onlineUsers.find(user => user.userId === userId)
-}
+    return onlineUsers.find(user => user.userId === userId);
+};
 
 io.on("connection", (socket) => {
     socket.on("newUser", (userId) => {
@@ -24,12 +29,15 @@ io.on("connection", (socket) => {
     });
 
     socket.on("sendMessage", ({ receiverId, data }) => {
-        const reciver = getUser(receiverId);
-        io.to(reciver.socketId).emit("getMessage", data);
-    })
+        const receiver = getUser(receiverId);
+        if (receiver) {
+            io.to(receiver.socketId).emit("getMessage", data);
+        }
+    });
 
     socket.on("disconnect", () => {
-        removeUser(socket.id)
-    })
-})
-io.listen("4000")
+        removeUser(socket.id);
+    });
+});
+
+io.listen("4000");

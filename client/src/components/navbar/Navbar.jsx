@@ -4,9 +4,7 @@ import {Link} from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 function Navbar() {
     const [open, setOpen] = useState(false);
-    const user = true;
     const {currentUser} = useContext(AuthContext);
-
     return (
         <nav>
             <div className="left">
@@ -16,8 +14,7 @@ function Navbar() {
                 </a>
                 <a href="/">Home</a>
                 <Link to="/list">Explore</Link>
-                <a href="/">Contact</a>
-                <a href="/">Agents</a>
+                <a href="/contact">Contact</a>
             </div>
             <div className="right">
                 {currentUser ? (
@@ -43,8 +40,7 @@ function Navbar() {
                 <div className={open ? "menu active" : "menu "}>
                     <a href="/">Home</a>
                     <Link href="/list">Explore</Link>
-                    <a href="/">Contact</a>
-                    <a href="/">Agents</a>
+                    <a href="/contact">Contact</a>
                     <a href="/">Sign In</a>
                     <a href="/">Sign Up</a>
                 </div>

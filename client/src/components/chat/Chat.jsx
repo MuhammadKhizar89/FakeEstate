@@ -4,77 +4,74 @@ import apiRequest from "../../lib/apiRequest";
 import {format} from "timeago.js";
 import {AuthContext} from "../../context/AuthContext";
 import {SocketContext} from "../../context/SocketContext";
+
 function Chat({chats}) {
-    const [chat, setchat] = useState(null);
+    const [chat, setChat] = useState(null);
     const {currentUser} = useContext(AuthContext);
     const {socket} = useContext(SocketContext);
 
     const handleOpenChat = async (id, receiver) => {
         try {
-            console.log(id);
             const res = await apiRequest.get(`/chats/${id}`);
-            console.log(res.data);
-            setchat({...res.data, receiver: receiver});
+            setChat({...res.data, receiver: receiver});
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const text = formData.get("text");
-        console.log(text, currentUser);
         if (!text) {
             return;
         }
         try {
             const res = await apiRequest.post(`/messages/${chat.id}`, {text});
-            setchat((prev) => ({...prev, messages: [...prev.messages, res.data]}));
-            socket.emit("sendMessage", {receiverId: chat.receiver.id, data: res.data});
+            setChat((prev) => ({...prev, messages: [...prev.messages, res.data]}));
+            socket.emit("sendMessage", {receiverId: chat.receiver.id, data: {...res.data, chatId: chat.id}});
             e.target.reset();
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
+
     useEffect(() => {
-        const read = async () => {
+        const readMessages = async () => {
             try {
                 await apiRequest.put(`/chats/read/${chat.id}`);
             } catch (error) {
-                console.log(error);
+                console.error(error);
             }
         };
-    
-        const handleMessage = (data) => {
-            if (chat.id === data.chatId) {
-                setchat((prev) => ({
-                    ...prev, 
-                    messages: [...prev.messages, data.message]
-                }));
-                read();
-            }
-        };
-    
+
         if (socket && chat) {
-            socket.on("getMessage", handleMessage);
+            socket.on("getMessage", (data) => {
+                if (chat.id === data.chatId) {
+                    setChat((prev) => ({...prev, messages: [...prev.messages, data]}));
+                    readMessages();
+                }
+            });
         }
-    
+
+        // Clean up the socket listener when the component unmounts or chat changes
         return () => {
             if (socket) {
-                socket.off("getMessage", handleMessage);
+                socket.off("getMessage");
             }
         };
     }, [socket, chat]);
-    
-
-    console.log(chats);
 
     return (
         <div className="chat">
             <div className="messages">
                 <h1>Messages</h1>
                 {chats.map((chat) => (
-                    <div onClick={() => handleOpenChat(chat.id, chat.receiver)} key={chat.id} className="message">
+                    <div
+                        onClick={() => handleOpenChat(chat.id, chat.receiver)}
+                        key={chat.id}
+                        className="message"
+                    >
                         <img src={chat.receiver.avatar || "/noavatar.png"} alt="" />
                         <span>{chat.receiver.username}</span>
                         <p>{chat.lastMessage}</p>
@@ -85,12 +82,10 @@ function Chat({chats}) {
                 <div className="chatBox">
                     <div className="top">
                         <div className="user">
-                            <span>
-                                <img src={chat.receiver.avatar || "/noavatar.png"} alt="" />
-                            </span>
-                            <span> {chat.receiver.username}</span>
+                            <img src={chat.receiver.avatar || "/noavatar.png"} alt="" />
+                            <span>{chat.receiver.username}</span>
                         </div>
-                        <span className="close" onClick={() => setchat(null)}>
+                        <span className="close" onClick={() => setChat(null)}>
                             X
                         </span>
                     </div>
@@ -101,7 +96,7 @@ function Chat({chats}) {
                                     alignSelf: message.userId === currentUser.id ? "flex-end" : "flex-start",
                                     textAlign: message.userId === currentUser.id ? "right" : "left",
                                 }}
-                                className="chatMessage own"
+                                className={`chatMessage ${message.userId === currentUser.id ? "own" : ""}`}
                                 key={message.id}
                             >
                                 <span>{message.text}</span>
@@ -109,6 +104,7 @@ function Chat({chats}) {
                             </div>
                         ))}
                     </div>
+                    
                     <form onSubmit={handleSubmit} className="bottom">
                         <textarea name="text"></textarea>
                         <button>Send</button>

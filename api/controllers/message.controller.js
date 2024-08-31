@@ -26,9 +26,7 @@ export const addMessage = async (req, res) => {
                 id: chatId
             },
             data: {
-                seenBy: {
-                    push: tokenUserId
-                },
+                seenBy:  [tokenUserId],
                 lastMessage:text,
             }
         })

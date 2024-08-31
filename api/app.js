@@ -17,6 +17,10 @@ app.use("/api/posts", postRoute);
 app.use("/api/users",userRoute);
 app.use("/api/chats",chatRoute);
 app.use("/api/messages",messageRoute);
+app.use("/",(req,res)=>{
+    res.json({message:"Hello World"})
+}
+);
 app.listen(8080, () => {
     console.log("Listening on port 8080");
 });

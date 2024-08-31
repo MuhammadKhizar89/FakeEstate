@@ -13,6 +13,18 @@ function SinglePage() {
     const {currentUser} = useContext(AuthContext);
     const navigate=useNavigate();
     console.log(post);
+    const createMessgae = async () => {
+        try {
+            await apiRequest.post("/chats/123", {receiverId: post.userId});
+            if(!currentUser)
+                navigate('/login');
+            else
+            navigate('/profile');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleSave = async () => {
         console.log(currentUser);
         if (!currentUser) {
@@ -129,7 +141,7 @@ function SinglePage() {
                         <Map items={[post]} />
                     </div>
                     <div className="buttons">
-                        <button>
+                        <button onClick={() => createMessgae()}>
                             <img src="/chat.png" alt="" />
                             Send a Message
                         </button>

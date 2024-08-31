@@ -1,13 +1,7 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../../components/searchBar/SearchBar";
 import "./homePage.scss";
-import { AuthContext } from "../../context/AuthContext";
-
 function HomePage() {
-    const { currentUser } = useContext(AuthContext);
-    console.log(currentUser);
-
-    // State for the counting numbers
     const [experience, setExperience] = useState(0);
     const [awards, setAwards] = useState(0);
     const [propertyReady, setPropertyReady] = useState(0);
