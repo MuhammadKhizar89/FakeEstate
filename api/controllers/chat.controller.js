@@ -88,11 +88,7 @@ export const readChat = async (req, res) => {
                     hasSome: [tokenUserId]
                 }
             },
-            data: {
-                seenBy: {
-                    push: tokenUserId
-                }
-            }
+            seenBy:tokenUserId
         })
         res.status(200).json(chat);
     } catch (error) {
